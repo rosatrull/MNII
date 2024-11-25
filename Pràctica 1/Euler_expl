@@ -10,6 +10,7 @@ n = 101  #Nombre de punts d'espai
 X = np.linspace(0, 1, n)  # Mallat espacial (adimensional)
 dx = 1 / (n - 1)  # Amplada del mallat espacial
 t_a = 0.025  #Temps final
+T_0=(0.02**2*944000)/(0.56)
 gammas = [0.51, 0.49, 0.25]  # Valors de gamma
 
 solucions = []
@@ -21,11 +22,11 @@ for gamma in gammas:
     T = np.zeros((n, m))  # Matriu T(x, t). #n=nombre de files. m=nombre de columnes. Les files dons x1 a tots els temps i les columnes son tots els x a un cert temps. Aixo tambe es podria haver fet amb [[0 for _ in range(n)] for _ in range of m]
 
     # Condicions inicials
-    T[:, 0] = 309.65
+    T[:, 0] = 309.65/T_0
 
     # Condicions de contorn
-    T[0, :] = 309.65
-    T[-1, :] = 309.65
+    T[0, :] = 309.65/T_0
+    T[-1, :] = 309.65/T_0
 
 
     #m-1 perque ja esta determinada la ultima posició
@@ -34,7 +35,7 @@ for gamma in gammas:
             T[x, t + 1] = T[x, t] + gamma * (T[x + 1, t] - 2 * T[x, t] + T[x - 1, t]+dx**2)
 
 
-    solucions.append((T[:, -1], gamma))  # Seleccionem la última columna
+    solucions.append((T[:, -1]*T_0, gamma))  # Seleccionem la última columna
 
 
 plt.figure(figsize=(10, 6))
