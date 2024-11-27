@@ -53,7 +53,7 @@ for gamma in gammas:
     ax.fill_betweenx([ymin, ymax + 1], 0.75, 1.25, color='lightcoral', alpha=0.5, edgecolor='none')
 
     for k in indices:
-        # Plot the current time step curve
+
         current_line, = ax.plot(
             X * L0, T[:, k],
             label=f"$\\hat{{t}}={k*dt:.4f}$",
@@ -66,6 +66,6 @@ for gamma in gammas:
 
         plt.savefig(f"temperature_plot_gamma_{gamma}_t_{k*dt:.4f}.png", dpi=150)
 
-    # Close the figure after saving all images
+  
     plt.close(fig)
 
