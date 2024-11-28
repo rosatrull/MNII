@@ -79,6 +79,7 @@ for gamma in gammas:
     ax.set_ylabel(r"T "+'('+r'$\circ$'+'C)')
 
     ax.legend(loc='upper right')
-    plt.show()
     plt.savefig('Euler_expl_' + str(gamma) + '.png', bbox_inches='tight', dpi=300)
+    plt.show()
+
 
