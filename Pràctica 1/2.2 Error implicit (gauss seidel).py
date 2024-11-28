@@ -79,9 +79,10 @@ for gamma in gammas:
     ax.set_ylabel(r"T "+'('+r'$\circ$'+'C)')
 
     ax.legend(loc='upper right')
-    plt.show()
-    #plt.savefig('Euler_implGS_' + str(gamma) + '.png', bbox_inches='tight', dpi=300)
+    
+    plt.savefig('Euler_implGS_' + str(gamma) + '.png', bbox_inches='tight', dpi=300)
 
+    plt.show()
     
 #Comparació i errors
 
@@ -111,7 +112,8 @@ ax1.set_xlim(0, 2)
 ax1.set_xlabel("z (cm)")
 ax1.set_ylabel("Error relatiu")
 ax1.legend(loc="upper right")
-plt.show(fig_err)
 plt.savefig('Erros_implGS_.png', bbox_inches='tight', dpi=300)
+plt.show(fig_err)
+
 
 
