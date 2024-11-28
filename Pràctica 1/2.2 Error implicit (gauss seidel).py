@@ -97,23 +97,22 @@ for gamma in gammas:
     T=all_T[:,-1]
 
 
-    err = np.abs((T - np.array(T_exacte)) / np.array(T_exacte))
+    err = np.abs((T - np.array(T_exacte)))
 
     ymin_err = np.min(err)
     ymax_err = np.max(err)
 
     ax1.plot(X * L0, err, label=f"$\\gamma = {gamma}$")
-    ax1.set_ylim(0, ymax_err+0.000001)
+    ax1.set_ylim(0, ymax_err+0.001)
 
-ax1.fill_betweenx([ymin_err, ymax_err+0.000001], 0.75, 1.25, color='lightcoral', alpha=0.5, edgecolor='none')
+ax1.fill_betweenx([ymin_err, ymax_err+0.001], 0.75, 1.25, color='lightcoral', alpha=0.5, edgecolor='none')
 
 
 ax1.set_xlim(0, 2)
 ax1.set_xlabel("z (cm)")
-ax1.set_ylabel("Error relatiu")
+ax1.set_ylabel("Error absolut")
 ax1.legend(loc="upper right")
 plt.savefig('Erros_implGS_.png', bbox_inches='tight', dpi=300)
 plt.show(fig_err)
-
 
 
