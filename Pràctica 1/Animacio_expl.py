@@ -30,8 +30,8 @@ for gamma in gammas:
     T = np.loadtxt(filename)
     dt = gamma * dx**2
     m = int(t_a / dt) + 1  
-    ymin=np.min(T)
-    ymax=np.max(T)
+    ymin=np.min(T)-273.15
+    ymax=np.max(T)-273.15
     print(m)
 
     num_images = 100
@@ -51,21 +51,22 @@ for gamma in gammas:
     ax.legend_ = None 
 
     ax.fill_betweenx([ymin, ymax + 1], 0.75, 1.25, color='lightcoral', alpha=0.5, edgecolor='none')
-
+    # Loop over each time step and add the new curve while updating the legend
     for k in indices:
-
+        # Plot the current time step curve
         current_line, = ax.plot(
-            X * L0, T[:, k],
+            X * L0, T[:, k]-273.15,
             label=f"$\\hat{{t}}={k*dt:.4f}$",
             alpha=((0.9/m)*k+0.1),
             color="blue"
         )
         
-
+        # Remove the old legend and add a new one with only the current curve
         ax.legend([current_line], [f"$\\hat{{t}}={k*dt:.4f}$"], loc='upper right', fontsize=10)
 
+        # Save the plot for this time step
         plt.savefig(f"temperature_plot_gamma_{gamma}_t_{k*dt:.4f}.png", dpi=150)
 
-  
+    # Close the figure after saving all images
     plt.close(fig)
 
