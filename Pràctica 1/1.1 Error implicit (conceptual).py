@@ -93,13 +93,13 @@ for i in z:
 temperatures = solucions[0][0]
 temperatures_array = np.array(temperatures)
 solucions_array = np.array(T_exacte)  
-#err_r = (T_exacte - temperatures) / temperatures
+#err_abs = (T_exacte - temperatures)
 print(len(T_exacte))
 print(len(solucions[0][0]))
 
 # Operació element a element
-err_r1 = np.abs((temperatures_array - solucions_array) / solucions_array)
-print(err_r1)
+err_abs1 = np.abs((temperatures_array - solucions_array))
+print(err_abs1)
 #gamma 1
 temperatures = solucions[1][0]
 temperatures_array = np.array(temperatures)
@@ -109,14 +109,13 @@ print(len(T_exacte))
 print(len(solucions[1][0]))
 
 # Operació element a element
-err_r2 = np.abs((temperatures_array - solucions_array) / solucions_array)
-print(err_r2)
+err_abs2 = np.abs((temperatures_array - solucions_array))
+print(err_abs2)
 
-plt.plot(z,err_r1,label="gamma=0.5")
-plt.plot(z,err_r2,label="gamma=1")
+plt.plot(z,err_abs1,label="gamma=0.5")
+plt.plot(z,err_abs2,label="gamma=1")
 plt.xlabel("z (posició)")
-plt.ylabel("T")
-plt.title("Solució de T a temps fix")
+plt.ylabel("Error absolut")
 plt.legend()
 plt.grid()
 plt.show()
