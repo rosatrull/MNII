@@ -32,8 +32,8 @@ for gamma in gammas:
     T = np.loadtxt(filename)
     dt = gamma * dx**2
     m = int(t_a / dt) + 1  
-    ymin=np.min(T)
-    ymax=np.max(T)
+    ymin=np.min(T)-273.15
+    ymax=np.max(T)-273.15
     print(m)
 
     num_images = 100
@@ -57,7 +57,7 @@ for gamma in gammas:
     for k in indices:
 
         current_line, = ax.plot(
-            X * L0, T[:, k],
+            X * L0, T[:, k]-273.15,
             label=f"$\\hat{{t}}={k*dt:.4f}$",
             alpha=((0.9/m)*k+0.1),
             color="indigo"
