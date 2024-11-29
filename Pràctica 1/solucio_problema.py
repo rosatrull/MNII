@@ -50,9 +50,12 @@ rho = 1081
 t_0 = (C_v * rho * T_0) / P_ext # Valor de referència per adimensionalitzar el temps
 #print(t_optim*t_0)         
 
+t_incertesa = 0.25 * dx**2 * t_0 #incertesa del pas temporal dimensioalitzada
+#print(t_incertesa)
+
 if t_optim is not None:
     t_optim_dimensional = t_optim*t_0
-    print(f"El temps òptim trobat pel mètode d'Euler implicit amb gamma = {gamma} és {t_optim_dimensional} segons")
+    print(f"El temps òptim trobat pel mètode d'Euler implicit amb gamma = {gamma} és {t_optim_dimensional} ± {t_incertesa} segons")
     col_optim = int(t_optim / dt)  # Calcular la columna correponent al t_optim
     T_optim = all_T[:, col_optim]  # Obtener las temperaturas en el espacio para el t_optimo
         
@@ -63,7 +66,7 @@ if t_optim is not None:
     ymin=np.min(T_optim)-273.15
     ymax=np.max(T_optim)-273.15
     #ax.plot(X*L0,np.array(T_anal)-273.15, label='Solució analítica')
-    ax.scatter(X * L0, T_optim - 273.15, label=f"Temps òptim = {t_optim_dimensional:.3f}s")
+    ax.scatter(X * L0, T_optim - 273.15, s=10, label=f"Temps òptim = {t_optim_dimensional:.3f} ± {t_incertesa:.3f}s")
     ax.hlines(50,0,2, color='black', linestyles='dashed', alpha=0.7)
     ax.set_xlabel("z (cm)")
     ax.set_ylabel(r"T "+'('+r'$\circ$'+'C)')
