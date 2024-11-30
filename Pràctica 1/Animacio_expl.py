@@ -34,7 +34,7 @@ for gamma in gammas:
     ymax=np.max(T)-273.15
     print(m)
 
-    num_images = 100
+    num_images = int(m/6)
     
     indices = np.linspace(0, m-1, num_images, dtype=int)
 
