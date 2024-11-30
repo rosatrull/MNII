@@ -57,7 +57,7 @@ N_terms = 1000
 T_exacte = [T_tilda(t, zi, T_c) * T_0 for zi in z]
 
 # Error relatiu per gamma
-fig, ax1 = plt.subplots(figsize=(6, 4))
+fig, ax1 = plt.subplots(figsize=(5, 4))
 ax1.tick_params(axis='x', which='both', top=True, labeltop=False, direction='in')  
 ax1.tick_params(axis='y', which='both', right=True, labelright=False, direction='in')
 
@@ -81,7 +81,7 @@ plt.show()
 for i, gamma in enumerate(gammas):
     temperatures = np.array(solucions[i][0]) - 273.15  
     T_exacte_C = np.array(T_exacte) - 273.15  
-    fig, ax = plt.subplots(figsize=(6, 4))
+    fig, ax = plt.subplots(figsize=(5, 4))
     
     ax.tick_params(axis='x', which='both', top=True, labeltop=False, direction='in')  
     ax.tick_params(axis='y', which='both', right=True, labelright=False, direction='in')
