@@ -56,23 +56,23 @@ T_c = 309.65 / T_0
 N_terms = 1000  
 T_exacte = [T_tilda(t, zi, T_c) * T_0 for zi in z]
 
-# Error relatiu per gamma
-fig, ax1 = plt.subplots(figsize=(5, 4))
+# Error absolut per gamma
+fig, ax1 = plt.subplots(figsize=(5, 4), dpi=500)
 ax1.tick_params(axis='x', which='both', top=True, labeltop=False, direction='in')  
 ax1.tick_params(axis='y', which='both', right=True, labelright=False, direction='in')
 
 for i, gamma in enumerate(gammas):
     temperatures = solucions[i][0]
-    err_r = np.abs((temperatures - T_exacte) / T_exacte)
-    ax1.plot(X*2, err_r, label=f"$\\gamma = {gamma}$")
+    err_abs = np.abs((temperatures - T_exacte))
+    ax1.plot(X*2, err_abs, label=f"$\\gamma = {gamma}$")
 
 
 ax1.set_xlabel("z (cm)")
-ax1.set_ylabel("Error relatiu")
+ax1.set_ylabel("Error absolut")
 ax1.legend(loc="upper right")
 ax1.set_xlim(0, 2)
-ax1.set_ylim(min(err_r),max(err_r)+0.0001)
-ax1.fill_betweenx([min(err_r),max(err_r)+0.0001], 0.75 , 1.25 , 
+ax1.set_ylim(min(err_abs),max(err_abs)+0.01)
+ax1.fill_betweenx([min(err_abs),max(err_abs)+0.01], 0.75 , 1.25 , 
                      color='lightcoral', alpha=0.5, edgecolor='none')
 plt.savefig('Erros_implCncpt_.png', bbox_inches='tight', dpi=300)
 
