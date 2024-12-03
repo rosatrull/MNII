@@ -8,14 +8,18 @@ dx = 1 / (n - 1)
 t_a = 0.025  
 T_0=(0.02**2*944000)/(0.56)
 
-def gauss_seidel(A, b): #aqui nomes estem omplint una columna, faltarà iterar sobre el temps. 
+def gauss_seidel(A, b, error):
     x = np.zeros_like(b)  
+    diff = 1e6  
+    iterations = 0
 
-    for _ in range(len(b)):  
-        for i in range(len(b)):  
-            sum1 = np.dot(A[i, :i], x[:i]) 
-            sum2 = np.dot(A[i, i+1:], x[i+1:])  
-            x[i] = (b[i] - sum1 - sum2) / A[i, i]  
+    while diff > error:  # Criteri convergencia
+        x_old = x.copy()  # Guardar l'iteració anterior
+        for i in range(len(b)):
+            sum1 = np.dot(A[i, :i], x[:i])
+            sum2 = np.dot(A[i, i+1:], x[i+1:])
+            x[i] = (b[i] - sum1 - sum2) / A[i, i]
+        diff = np.linalg.norm(x - x_old, ord=np.inf)  # Norma infinita (màxima diferència absoluta)
 
     return x
 
@@ -48,7 +52,7 @@ def solucio(gamma, n, t_a, dx):
         b[-1] += gamma * T[-1, t]  
         
         
-        T[1:-1, t] = gauss_seidel(A, b) #omplim la resta de la matriu amb gauss-seidel
+        T[1:-1, t] = gauss_seidel(A, b,1e-8) #omplim la resta de la matriu amb gauss-seidel
     
     return T*T_0
 
