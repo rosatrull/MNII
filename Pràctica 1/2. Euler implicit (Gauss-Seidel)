@@ -6,7 +6,7 @@ n = 101
 X = np.linspace(0, 1, n)  
 dx = 1 / (n - 1)  
 t_a = 0.025  
-T_0=(0.2**2*944000)/(0.56)
+T_0=(0.02**2*944000)/(0.56)
 
 def gauss_seidel(A, b): #aqui nomes estem omplint una columna, faltarà iterar sobre el temps. 
     x = np.zeros_like(b)  
