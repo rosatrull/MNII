@@ -51,7 +51,7 @@ for gamma in gammas:
     ax.legend_ = None 
 
     ax.fill_betweenx([ymin, ymax + 1], 0.75, 1.25, color='lightcoral', alpha=0.5, edgecolor='none')
-    # Loop over each time step and add the new curve while updating the legend
+    
     for k in indices:
         # Plot the current time step curve
         current_line, = ax.plot(
@@ -61,12 +61,11 @@ for gamma in gammas:
             color="blue"
         )
         
-        # Remove the old legend and add a new one with only the current curve
+
         ax.legend([current_line], [f"$\\hat{{t}}={k*dt:.4f}$"], loc='upper right', fontsize=10)
 
-        # Save the plot for this time step
+
         plt.savefig(f"temperature_plot_gamma_{gamma}_t_{k*dt:.4f}.png", dpi=150)
 
-    # Close the figure after saving all images
     plt.close(fig)
 
