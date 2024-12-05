@@ -61,6 +61,8 @@ solucions = []
 for gamma in gammas:
     T = solucio(gamma, n, t_a, dx)
     solucions.append((T[:, -1], gamma))  
+    filename = f"matriuT_implGS_gamma_{gamma}.txt"
+    np.savetxt(filename, T, fmt="%.15g")
 
 
 plt.figure(figsize=(10, 6))
