@@ -36,6 +36,9 @@ for gamma in gammas:
 
 
     solucions.append((T[:, -1]*T_0, gamma))  # Seleccionem la última columna
+    filename = f"matriuT_expl_gamma_{gamma}.txt"
+    np.savetxt(filename, T*T_0, fmt="%.15g")
+
 
 
 plt.figure(figsize=(10, 6))
