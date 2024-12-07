@@ -45,5 +45,5 @@ for i in range(len(t)-1):
     vx0=vxi[i+1]
     vy0=vyi[i+1]
 
-
+plt.figure(figsize=(6,6))
 plt.plot(xi,yi)
