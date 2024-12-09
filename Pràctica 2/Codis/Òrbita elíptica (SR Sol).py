@@ -33,7 +33,7 @@ vx0=0
 vxi.append(vx0)
 vy0= 30300/vo   
 vyi.append(vy0)
-h=(2*24*60*60)/(xo/vo)
+h=(60*60)/(xo/vo)
 t=np.arange(t0,tf,h)
 
 for i in range(len(t)-1):
