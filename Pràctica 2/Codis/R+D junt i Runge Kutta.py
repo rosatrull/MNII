@@ -29,7 +29,7 @@ r_0=(G*M_S*t_0**2)**(1/3)
 #CONDICIONS INICIALS-----------------------------------------------------------------------------
 d_af=1.017*UA/r_0                                 #distància Terra-Sol a l'afeli [m]
 v_af=-(29300*t_0)/r_0                             #velocitat Terra a l'afeli [m/s] !Component y!
-latitud_c=np.radians(45)                  #latitud de Caldes de Malavella [rad] 41.8356600
+latitud_c=np.radians(41.8356600)                  #latitud de Caldes de Malavella [rad] 
 longitud_c=np.radians(2.8127200)                  #longitud de Caldes de Malavella [rad]
 
 pos_i=np.zeros((N,3))                             #(x,y,z) a t n
