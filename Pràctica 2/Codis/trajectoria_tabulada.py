@@ -80,9 +80,9 @@ fig = plt.figure(figsize=(7, 5))
 ax = fig.add_subplot(111, projection='3d')
 
 # Trajectòries del Sol per diferents dies de l'any
-for dia in np.arange(0, 366, 10):  # Interval de 10 dies
+for dia in np.arange(0, 366, 5):  # Interval de 10 dies
     x, y, z = cami_sol(dia)
-    ax.plot(x, y, z, color='black')
+    ax.plot(x, y, z, color='black',  linewidth=0.4 )
 
 
 ax.set_title("Evolució 3D del Sol des de la sortida fins a la posta")
@@ -102,5 +102,7 @@ ax.set_yticks(np.arange(-0.5, 1+0.5, 0.5), minor=False)
 ax.set_zticks(np.arange(0, 1+0.5, 0.5), minor=False)
 
 ax.grid(False)
+
+plt.savefig('trajectoria.png',bbox_inches='tight', dpi=300)
 
 plt.show()
