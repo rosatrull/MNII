@@ -214,7 +214,7 @@ plt.savefig('Orbita_Terra_Euler+RK4+teorica', bbox_inches='tight', dpi=300)
 plt.show()
 
 #CALCULAR L'ERROR RELATIU--------------------------------------------------------------------------------------
-
+"""
 x_error_euler = pos_f_e[:,0] - x_an
 y_error_euler = pos_f_e[:,1] - y_an
 
@@ -223,7 +223,7 @@ y_error_kutta = pos_f[:,1] - y_an
 
 error_euler = np.abs(np.sqrt(x_error_euler**2 + y_error_euler**2))  
 error_rk4 = np.abs(np.sqrt(x_error_kutta**2 + y_error_kutta**2)) 
-
+"""
 r_euler = np.sqrt((pos_f_e[:, 0]*r_0)**2 + (pos_f_e[:, 1]*r_0)**2)
 r_kutta = np.sqrt((pos_f[:, 0]*r_0)**2 + (pos_f[:, 1]*r_0)**2)
 
