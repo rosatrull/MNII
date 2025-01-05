@@ -46,7 +46,7 @@ area= simps(intensitats_mitjanes, dies)
 
 # Mostrem les àrees calculades
 print(f"Àrea sota la corba (solstici d'estiu, Simpson): {area:.2f} J/m²")
-print(f"Energia (solstici d'hivern, Simpson): {area*2*0.9:.2f} J")
+print(f"Energia (solstici d'hivern, Simpson): {area*2*0.2:.2f} J")
 fig, ax = plt.subplots(figsize=(5,4))
 
 ax.set_xlabel("Dia de l'any")
