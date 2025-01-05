@@ -36,9 +36,6 @@ vel_f[0,1]=v_af
 
 #RUNGE-KUTTA 4
 t=0
-p_C_terr=np.zeros((N,3))
-pos_Caldes=np.zeros((N,3))
-
 for j in range(1, N):
     t = t + dt
 
