@@ -1,6 +1,20 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.serif": ["Computer modern"],  # You can change the serif font here if needed
+    "axes.labelsize": 14,     # Adjust as needed
+    "axes.linewidth": 0.5,    # Line width for axes
+    "xtick.labelsize": 12,    # Adjust tick label size
+    "ytick.labelsize": 12,    
+    "legend.fontsize": 10,    
+    "legend.handlelength": 1.0,
+    "lines.linewidth": 1,     # Width of plot lines
+    "lines.markersize": 3     # Scatter dot size
+})
+
 #CONSTANTS I PARÀMETRES FÍSICS NECESSÀRIS
 G=6.67428e-11                                     #cte grav universal [m^3·kg^-1·s^-1]
 UA=1.496e11                                       #unitat astronòmica [m] =distància Terra-Sol
@@ -74,9 +88,26 @@ for j in range(1, N):
 xd=pos_f[:, 0]*r_0
 yd=pos_f[:, 1]*r_0
 zd=pos_f[:, 2]*r_0
-
-plt.figure(figsize=(8, 8))
+"""
+plt.figure(figsize=(5, 4))
 plt.plot(xd,yd,label="orbita Terra")
 plt.scatter(0,0, color="orange",s=40)
 plt.legend()
+plt.show()
+"""
+fig, ax = plt.subplots(figsize=(5, 5), dpi=300)
+ax.tick_params(axis='x', which='both', top=True, labeltop=False, direction='in')
+ax.tick_params(axis='y', which='both', right=True, labelright=False, direction='in')
+ax.plot(xd, yd, label='Orbita de la Terra al voltant del Sol amb RK4', color='blue')
+
+ax.scatter(0, 0, s=40, label="Sol", color="orange")
+
+#ax.set_ylim(min(yd)-1e11, max(yd)+1e11)
+#ax.set_xlim(min(xd)-1e11, max(xd)+1e11)
+ax.set_xlabel("x (m)")
+ax.set_ylabel("y (m)")
+ax.legend(loc='upper right')
+
+# Guardar el gràfic
+plt.savefig('Orbita_Terra_RK4', bbox_inches='tight', dpi=300)
 plt.show()
