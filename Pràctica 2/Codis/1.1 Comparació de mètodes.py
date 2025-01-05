@@ -132,21 +132,43 @@ yd_e=pos_f_e[:, 1]*r_0
 
 #SOLUCIÓ ANALÍTICA---------------------------------------------------------------------------------------
 def analitica(theta):
+    #h = 4.45e15 
     L = 2.66e40
     M_S = 1.9885e30 
     G = 6.67428e-11
     e = 0.0167
     M_T = 5.97e24
-    denominador = G * M_S * (M_T)**2 * (1 + e*np.cos(theta))
-    r = L**2 / denominador
+    r = (L**2 / (M_S * M_T**2 * G)) * (1 / (1 + e * np.cos(theta)))
+    #k = -G * M_S * M_T
+    
+    #r = - (M_T * k / L**2)*(1/(1 + e * np.cos(theta)))
+    #r = (L**2 / (M_S * M_T**2 * G)) * (1 / (1 + e * np.cos(theta)))
+    #denominador = G * (M_S)**2 * M_T * (1 + e*np.cos(theta))
+    #r = L**2 / denominador
     return r
 
 angle_theta = np.linspace(0, 2 * np.pi, N)
 r_values = analitica(angle_theta)
 
-x_an = r_values * np.cos(angle_theta) * r_0
-y_an = r_values * np.sin(angle_theta) * r_0
+x_an = r_values * np.cos(angle_theta)
+y_an = r_values * np.sin(angle_theta)
 
+#POLOT ANALÍTICA
+fig, ax = plt.subplots(figsize=(5, 5), dpi=300)
+ax.tick_params(axis='x', which='both', top=True, labeltop=False, direction='in')
+ax.tick_params(axis='y', which='both', right=True, labelright=False, direction='in')
+
+ax.plot(x_an, y_an, label='Òrbita teòrica de la Terra al voltant del Sol', color = 'black')
+
+ax.scatter(0, 0, s=40, label="Sol", color="orange")
+
+ax.set_xlabel("x (m)")
+ax.set_ylabel("y (m)")
+ax.legend(loc='upper right')
+
+# Guardar el gràfic
+plt.savefig('Orbita_Terra_Teòrica', bbox_inches='tight', dpi=300)
+plt.show()
 
 #GRÀFIQUEM LES DIVERSES SOLUCIONS-------------------------------------------------------------------
 #Euler + RK4
@@ -192,7 +214,7 @@ plt.savefig('Orbita_Terra_Euler+RK4+teorica', bbox_inches='tight', dpi=300)
 plt.show()
 
 #CALCULAR L'ERROR RELATIU--------------------------------------------------------------------------------------
-"""
+
 x_error_euler = pos_f_e[:,0] - x_an
 y_error_euler = pos_f_e[:,1] - y_an
 
@@ -201,7 +223,7 @@ y_error_kutta = pos_f[:,1] - y_an
 
 error_euler = np.abs(np.sqrt(x_error_euler**2 + y_error_euler**2))  
 error_rk4 = np.abs(np.sqrt(x_error_kutta**2 + y_error_kutta**2)) 
-"""
+
 r_euler = np.sqrt((pos_f_e[:, 0]*r_0)**2 + (pos_f_e[:, 1]*r_0)**2)
 r_kutta = np.sqrt((pos_f[:, 0]*r_0)**2 + (pos_f[:, 1]*r_0)**2)
 
@@ -232,22 +254,3 @@ ax.legend(loc='upper right')
 # Guardar i mostrar el gràfic
 plt.savefig('Error_absolut', bbox_inches='tight', dpi=300)
 plt.show()
-#Plot
-"""
-fig, ax = plt.subplots(figsize=(5, 5), dpi=300)
-ax.tick_params(axis='x', which='both', top=True, labeltop=False, direction='in')
-ax.tick_params(axis='y', which='both', right=True, labelright=False, direction='in')
-
-ax.plot(angle_theta, error_euler, label="Error absolut amb el mètode d'Euler", color='red')
-ax.plot(angle_theta, error_rk4, label="Error absolut amb el mètode RK4", color='blue')
-
-#ax.set_ylim(min(yd)-1e11, max(yd)+1e11)
-#ax.set_xlim(min(xd)-1e11, max(xd)+1e11)
-ax.set_xlabel(r"$\theta$ (rad))")
-ax.set_ylabel("Error absolut")
-ax.legend(loc='upper right')
-
-# Guardar el gràfic
-plt.savefig('Error_absolut', bbox_inches='tight', dpi=300)
-plt.show()
-"""
