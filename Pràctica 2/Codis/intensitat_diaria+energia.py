@@ -54,8 +54,8 @@ area_hivern_simps = simps(intensitat_hivern, temps_hivern)
 print(f"Àrea sota la corba (solstici d'estiu, Simpson): {area_estiu_simps:.2f} J/m²")
 print(f"Àrea sota la corba (solstici d'hivern, Simpson): {area_hivern_simps:.2f} J/m²")
 
-print(f"Energia (solstici d'estiu, Simpson): {area_estiu_simps*2*0.9:.2f} J")
-print(f"Energia (solstici d'hivern, Simpson): {area_hivern_simps*2*0.9:.2f} J")
+print(f"Energia (solstici d'estiu, Simpson): {area_estiu_simps*2*0.2:.2f} J")
+print(f"Energia (solstici d'hivern, Simpson): {area_hivern_simps*2*0.2:.2f} J")
 
 
 
