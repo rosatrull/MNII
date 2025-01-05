@@ -232,7 +232,7 @@ S_tot=[]
 for i in pos_Caldes_terr:
     b+=1
     S.append(i)
-    if b==24:
+    if b==25:
         S_tot.append(S)
         S=[]
         b=0
