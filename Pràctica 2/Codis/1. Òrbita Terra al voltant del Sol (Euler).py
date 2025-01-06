@@ -62,11 +62,14 @@ for j in range(1,N):
     pos_f[j,0] = pos_f[j-1,0] + vel_f[j-1,0] * dt 
     pos_f[j,1] = pos_f[j-1,1] + vel_f[j-1,1] * dt 
    
+#GUARDEM DADES
+pos_T=np.array(pos_f*r_0)
+filename = f"Euler.txt"
+np.savetxt(filename, pos_T, delimiter=",", header="x,y,z", comments="")   
 
 #GRAFIQUEM ORBITA TERRA AL VOLTANT DEL SOL
 xd=pos_f[:, 0]*r_0
 yd=pos_f[:, 1]*r_0
-#zd=pos_f[:, 2]*r_0
 
 fig, ax = plt.subplots(figsize=(5, 5), dpi=300)
 ax.tick_params(axis='x', which='both', top=True, labeltop=False, direction='in')
@@ -75,8 +78,6 @@ ax.plot(xd, yd, label='Orbita de la Terra al voltant del Sol amb Euler', color='
 
 ax.scatter(0, 0, s=40, label="Sol", color="orange")
 
-#ax.set_ylim(min(yd)-1e11, max(yd)+1e11)
-#ax.set_xlim(min(xd)-1e11, max(xd)+1e11)
 ax.set_xlabel("x (m)")
 ax.set_ylabel("y (m)")
 ax.legend(loc='upper right')
