@@ -2,48 +2,65 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
-G= 6.67428*(10**(-11))
-M=1.9885*(10**(30))
-r=1496*(10**(8))
-vo=1.0
-xo=1496*(10**(8))
-a= -G*M*(xo**(2))/((r**(3))*(vo**(2)))
 
-fxi=[]
-fyi=[]
-vxi=[]
-vyi=[]
-xi=[]
-yi=[]
+G = 6.67428e-11  # Constant gravitacional 
 
-def fx(x,y):
-    return a*x
-def fy(x,y):
-    return a*y
+# Constants d'adimensionalització
+Mo = 1.9885e30   
+xo = 1.496e11   
+to = np.sqrt((xo**3) / (Mo * G))  
+vo = xo / to                    
 
+#Valors inicials
+x0 = 1                      
+y0 = 0.0                      
+vx0 = 0.0                     
+vy0 = np.sqrt(G * Mo / xo) / vo  
 
-t0=0
-tf=365*24*60*60/(xo/vo)
-x0=r/xo
-xi.append(x0)
-y0= 0
-yi.append(y0)
-vx0=0 
-vxi.append(vx0)
-vy0= (np.sqrt(G * M / r))/vo   
-vyi.append(vy0)
-h=(2*24*60*60)/(xo/vo)
-t=np.arange(t0,tf,h)
+#Llista de temps 
+t0 = 0
+tf = 365 * 24 * 60 * 60 / to  
+h = (60 * 60) / to 
+t = np.arange(t0, tf, h)
 
-for i in range(len(t)-1):
-    vxi.append(vx0+fx(x0, y0)*h)
-    vyi.append(vy0+fy(x0, y0)*h)
-    xi.append(x0+vxi[i]*h)
-    yi.append(y0+vyi[i]*h)
-    x0=xi[i+1]
-    y0=yi[i+1]
-    vx0=vxi[i+1]
-    vy0=vyi[i+1]
+#Llistes de posició i velocitat
+xi = [x0]
+yi = [y0]
+vxi = [vx0]
+vyi = [vy0]
 
-plt.figure(figsize=(6,6))
-plt.plot(xi,yi)
+# Llei de la gravitació
+def fx(x, y, M=1):
+    r = np.sqrt(x**2 + y**2)
+    return -(M * x) / (r**3)
+
+def fy(x, y, M=1):
+    r = np.sqrt(x**2 + y**2)
+    return -(M * y) / (r**3)
+
+# Mètode d'Euler
+for i in range(len(t) - 1):
+    vxnou = vxi[i] + fx(xi[i], yi[i]) * h
+    vynou = vyi[i] + fy(xi[i], yi[i]) * h
+    xnou = xi[i] + vxnou * h
+    ynou = yi[i] + vynou * h
+    vxi.append(vxnou)
+    vyi.append(vynou)
+    xi.append(xnou)
+    yi.append(ynou)
+
+# Redimensionalització
+xv = [x * xo for x in xi]
+yv = [y * xo for y in yi]
+
+# Gráfica de la órbita circular de la Terra al voltant del Sol
+plt.figure(figsize=(6, 6))
+plt.plot(xv, yv, color="blue")
+plt.scatter([0], [0], color="orange", label="Sol")
+plt.xlabel("x (m)")
+plt.ylabel("y (m)")
+plt.title("Órbita circular de la Terra")
+plt.legend()
+plt.grid()
+plt.axis("equal")
+plt.show()
