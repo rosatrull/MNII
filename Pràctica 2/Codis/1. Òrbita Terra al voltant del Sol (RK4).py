@@ -83,6 +83,10 @@ for j in range(1, N):
     vel_f[j][0] = vel_f[j-1][0] + (k1vx + 2*k2vx + 2*k3vx + k4vx) / 6
     vel_f[j][1] = vel_f[j-1][1] + (k1vy + 2*k2vy + 2*k3vy + k4vy) / 6 
     
+#GUARDEM DADES
+pos_T=np.array(pos_f*r_0)
+filename = f"RK4.txt"
+np.savetxt(filename, pos_T, delimiter=",", header="x,y,z", comments="")  
     
 #GRAFIQUEM ORBITA TERRA AL VOLTANT DEL SOL
 xd=pos_f[:, 0]*r_0
