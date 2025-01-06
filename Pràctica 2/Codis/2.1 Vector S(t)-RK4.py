@@ -1,6 +1,21 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.serif": ["Computer modern"],  # You can change the serif font here if needed
+    "axes.labelsize": 14,     # Adjust as needed
+    "axes.linewidth": 0.5,    # Line width for axes
+    "xtick.labelsize": 12,    # Adjust tick label size
+    "ytick.labelsize": 12,    
+    "legend.fontsize": 10,    
+    "legend.handlelength": 1.0,
+    "lines.linewidth": 1,     # Width of plot lines
+    "lines.markersize": 3     # Scatter dot size
+})
+
+
 #DADES DISTÀNCIA SOL TERRA
 d_ST=np.loadtxt(f"RK4.txt",delimiter=",",skiprows=1)
 x_ST=d_ST[:,0]
@@ -20,6 +35,13 @@ M_r_a=np.array([
     [1, 0, 0],
     [0, np.cos(alpha), np.sin(alpha)],
     [0, -np.sin(alpha), np.cos(alpha)]])          #matriu rotació alpha al voltant d'x
+
+# línia eix de rotació per després posar-la en el plot
+linia = np.linspace(0, 6e6, 100)                   # longitud de la línea
+# Coordenadas de la línea
+lx = np.zeros_like(linia)                         # La línea está en el plano yz (x=0)
+ly = linia * np.sin(alpha)                        # Proyección en el eje y
+lz = linia * np.cos(alpha)                        # Proyección en el eje z
 
 #NORMALITZACIÓ
 r_0=UA                                              
@@ -78,31 +100,71 @@ S_t= np.array(pos_Caldes)
 filename = f"S(t) RK4.txt"
 np.savetxt(filename, S_t, delimiter=",", header="x,y,z", comments="")
       
-#ORBITA CALDES AL VOLTANT DEL CENTRE DE LA TERRA
+#ORBITA CALDES AL VOLTANT DEL CENTRE DE LA TERRA---------------------------------------------------------------
 xr=p_C_terr[:,0]
 yr=p_C_terr[:,1]
 zr=p_C_terr[:,2]
-fig = plt.figure(figsize=(8, 8))
+
+fig = plt.figure(figsize=(5, 5), dpi = 300)
 ax = fig.add_subplot(111, projection='3d')
-ax.scatter(xr[0], yr[0], zr[0], color='red', label="Punt inicial (x, y, z)")   # Posició inicial
-ax.plot(xr, yr, zr, label="Trajectòria (x, y, z)", color='blue')               # Trajectòries
+
+ax.tick_params(axis='x', which='both', top=True, labeltop=False, direction='in')
+ax.tick_params(axis='y', which='both', right=True, labelright=False, direction='in')
+ax.tick_params(axis='z', which='both', direction='in')
+
+ax.grid(False)
+
+ax.xaxis.pane.set_visible(True)
+ax.yaxis.pane.set_visible(True)
+ax.zaxis.pane.set_visible(True)  
+ax.xaxis.pane.set_edgecolor('grey')
+ax.yaxis.pane.set_edgecolor('grey')
+
+ax.xaxis.pane.set_facecolor((0.9, 0.9, 0.9, 1.0))  
+ax.yaxis.pane.set_facecolor((0.9, 0.9, 0.9, 1.0))  
+ax.zaxis.pane.set_facecolor((0.9, 0.9, 0.9, 1.0))  
+
+ax.scatter(xr[0], yr[0], zr[0], color='red', label="Punt inicial")             # Posició inicial
+ax.plot(xr, yr, zr, label="Trajectòria de Caldes", color='blue')               # Trajectòries
 ax.scatter(0,0,0, color="black", label="Centre Terra",s=40)                    # Centre de la Terra
+ax.plot(lx, ly, lz, label='Eix de rotació', color='black', linestyle='--')
+
 ax.set_title("Posició de Caldes respecte el centre de la Terra")
 ax.set_xlabel("x (m)")
 ax.set_ylabel("y (m)")
 ax.set_zlabel("z (m)")
-ax.legend()
+ax.legend(loc='upper right')
 plt.show()
 
-#ORBITA CALDES AL VOLTANT DEL SOL
+
+#ORBITA CALDES AL VOLTANT DEL SOL--------------------------------------------------------------------------------
 xr=pos_Caldes[:,0]
 yr=pos_Caldes[:,1]
 zr=pos_Caldes[:,2]
-fig = plt.figure(figsize=(8, 8))
+
+fig = plt.figure(figsize=(5, 5), dpi = 300)
 ax = fig.add_subplot(111, projection='3d')
+
+ax.tick_params(axis='x', which='both', top=True, labeltop=False, direction='in')
+ax.tick_params(axis='y', which='both', right=True, labelright=False, direction='in')
+ax.tick_params(axis='z', which='both', direction='in')
+
+ax.grid(False)
+
+ax.xaxis.pane.set_visible(True)
+ax.yaxis.pane.set_visible(True)
+ax.zaxis.pane.set_visible(True)  
+ax.xaxis.pane.set_edgecolor('grey')
+ax.yaxis.pane.set_edgecolor('grey')
+
+ax.xaxis.pane.set_facecolor((0.9, 0.9, 0.9, 1.0))  
+ax.yaxis.pane.set_facecolor((0.9, 0.9, 0.9, 1.0))  
+ax.zaxis.pane.set_facecolor((0.9, 0.9, 0.9, 1.0)) 
+
 ax.scatter(xr[0], yr[0], zr[0], color='red', label="Punt inicial (x, y, z)")   # Posició inicial
 ax.plot(xr, yr, zr, label="Trajectòria (x, y, z)", color='blue')               # Trajectòries
-ax.scatter(0,0,0, color="orange", label="Sol",s=40)                            # Centre de la Terra
+ax.scatter(0,0,0, color="orange", label="Sol",s=40)                            # Sol
+
 ax.set_title("Posició de Caldes respecte el Sol")
 ax.set_xlabel("x (m)")
 ax.set_ylabel("y (m)")
