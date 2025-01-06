@@ -24,7 +24,6 @@ def angle_horari(h):
 def angle_altitud(sigma, delta):
     return np.arcsin(np.cos(latitud) * np.cos(sigma) * np.cos(delta) + np.sin(latitud) * np.sin(delta))
 
-
 def calcular_intensitat_diaria(dia):
     hores = np.linspace(0, hores_dia, 500)  
     intensitats = []
@@ -38,15 +37,29 @@ def calcular_intensitat_diaria(dia):
         return np.mean(intensitats)
     return 0 
 
+n
+def simpson(x, y):
+    n = len(x) - 1
+    if n % 2 != 0:  
+        x = x[:-1]
+        y = y[:-1]
+        n = len(x) - 1
+    h = (x[-1] - x[0]) / n
+    integral = y[0] + y[-1] + 4 * sum(y[1:n:2]) + 2 * sum(y[2:n-1:2])
+    return h * integral / 3
+
 
 dies = np.arange(1, 366) 
 intensitats_mitjanes = [calcular_intensitat_diaria(dia) for dia in dies]
 
-area= simps(intensitats_mitjanes, dies)
 
-# Mostrem les àrees calculades
-print(f"Àrea sota la corba (solstici d'estiu, Simpson): {area:.2f} J/m²")
-print(f"Energia (solstici d'hivern, Simpson): {area*2*0.2:.2f} J")
+area = simpson(dies, intensitats_mitjanes)
+
+
+print(f"Àrea sota la corba (Simpson): {area:.2f} J/m²")
+print(f"Energia total (Simpson): {area * 2 * 0.2:.2f} J")
+
+
 fig, ax = plt.subplots(figsize=(5,4))
 
 ax.set_xlabel("Dia de l'any")
@@ -59,10 +72,9 @@ ax.tick_params(axis='y', which='both', right=True, labelright=False, direction='
 plt.axvline(172, color='orange', linestyle='--', label="Solstici d'estiu (dia 172)")
 plt.axvline(355, color='blue', linestyle='--', label="Solstici d'hivern (dia 355)")
 
-ax.set_ylim(270,600)
+ax.set_ylim(270, 600)
 plt.grid(False)
 plt.legend(loc='upper right')
-plt.savefig('intensitat mitjana.png',bbox_inches='tight', dpi=300)
+plt.savefig('intensitat_mitjana.png', bbox_inches='tight', dpi=300)
 
 plt.show()
-
