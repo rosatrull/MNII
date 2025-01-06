@@ -50,16 +50,34 @@ x=pos_Caldes_terr[:,0]
 y=pos_Caldes_terr[:,1]
 z=pos_Caldes_terr[:,2]
 
-fig = plt.figure(figsize=(8, 8))
+fig = plt.figure(figsize=(5, 5), dpi=300)
 ax = fig.add_subplot(111, projection='3d')
+
+ax.tick_params(axis='x', which='both', top=True, labeltop=False, direction='in')
+ax.tick_params(axis='y', which='both', right=True, labelright=False, direction='in')
+ax.tick_params(axis='z', which='both', direction='in')
+
+ax.grid(False)
+
+ax.xaxis.pane.set_visible(True)
+ax.yaxis.pane.set_visible(True)
+ax.zaxis.pane.set_visible(True)  
+ax.xaxis.pane.set_edgecolor('grey')
+ax.yaxis.pane.set_edgecolor('grey')
+
+ax.xaxis.pane.set_facecolor((0.9, 0.9, 0.9, 1.0))  
+ax.yaxis.pane.set_facecolor((0.9, 0.9, 0.9, 1.0))  
+ax.zaxis.pane.set_facecolor((0.9, 0.9, 0.9, 1.0)) 
+
 ax.plot(x,y,z, label="Trajectòria Sol", color='orange')                         # Trajectòries
-ax.scatter(0,0,0, color="black", label="placa",s=40)                            # Centre de la Terra
+ax.scatter(0,0,0, color="black", label="placa",s=40)  
+                          # Centre de la Terra
 ax.set_title("Posició del Sol resecte la placa")
 ax.set_xlabel("x (m)")
 ax.set_ylabel("y (m)")
 ax.set_zlabel("z (m)")
 ax.set_zlim(0,1e11)
-ax.legend()
+ax.legend(loc='upper right')
 plt.show()
 
 #PLOT DE POCS DIES PER VEURE EL MOVIMENT
@@ -67,14 +85,32 @@ xd=pos_Caldes_terr[:1000,0]
 yd=pos_Caldes_terr[:1000,1]
 zd=pos_Caldes_terr[:1000,2]
 
-fig = plt.figure(figsize=(8, 8))
+fig = plt.figure(figsize=(5, 5), dpi=300)
 ax = fig.add_subplot(111, projection='3d')
+
+ax.tick_params(axis='x', which='both', top=True, labeltop=False, direction='in')
+ax.tick_params(axis='y', which='both', right=True, labelright=False, direction='in')
+ax.tick_params(axis='z', which='both', direction='in')
+
+ax.grid(False)
+
+ax.xaxis.pane.set_visible(True)
+ax.yaxis.pane.set_visible(True)
+ax.zaxis.pane.set_visible(True)  
+ax.xaxis.pane.set_edgecolor('grey')
+ax.yaxis.pane.set_edgecolor('grey')
+
+ax.xaxis.pane.set_facecolor((0.9, 0.9, 0.9, 1.0))  
+ax.yaxis.pane.set_facecolor((0.9, 0.9, 0.9, 1.0))  
+ax.zaxis.pane.set_facecolor((0.9, 0.9, 0.9, 1.0)) 
 ax.plot(xd,yd,zd, label="Trajectòria Sol", color='orange')                         # Trajectòries
-ax.scatter(0,0,0, color="black", label="placa",s=40)                            # Centre de la Terra
+ax.scatter(0,0,0, color="black", label="placa",s=40)                            # Posició placa
 ax.set_title("Posició del Sol resecte la placa")
-ax.set_xlabel("x (m)")
-ax.set_ylabel("y (m)")
-ax.set_zlabel("z (m)")
+ax.set_xlabel("Sud (m)")
+ax.set_ylabel("Est (m)")
+ax.set_zlabel("Altitud (m)")
 ax.set_zlim(0,1e11)
-ax.legend()
+
+
+ax.legend(loc='upper right')
 plt.show()
