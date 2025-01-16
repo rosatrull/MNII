@@ -68,42 +68,41 @@ ax.legend()
 plt.show()
 
 #FILTRACIÓ VALORS DE Z
-a=0
-S=[]
-S_tot=[]
+xd=pos_Caldes_terr[:,0]
+yd=pos_Caldes_terr[:,1]
+zd=pos_Caldes_terr[:,2]
+# Filtrar punts on zd > 0
+mask = zd > 0  # Això crea una màscara booleana
 
-for i in pos_Caldes_terr:
-    a+=1
-    S.append(i)
-    if a==24:
-        S_tot.append(S)
-        S=[]
-        a=0
+# Dividir els punts en grups continus
+segments = []
+current_segment = []
 
-S_tot_filtrat=[]
+for i in range(len(zd)):
+    if mask[i]:  # Si el punt compleix z > 0
+        current_segment.append((xd[i], yd[i], zd[i]))
+    elif current_segment:  # Si trobem un punt que no compleix voldrà dir que haurem acabat el segment i el guardem a la llista segments
+        segments.append(current_segment)
+        current_segment = [] #reiniciem la llista per buscar el proxim conjunt de punts (segment) que ho compleix.
 
-for S in S_tot:  
-    S_filtrat=[]  
-    for vector in S:  
-        if vector[2] > 0:  
-            S_filtrat.append(vector)  
-    S_tot_filtrat.append(S_filtrat)
-    
+# Afegir l'últim segment si n'hi ha
+if current_segment:
+    segments.append(current_segment)
 
+# Graficar cada segment com una línia independent
 fig = plt.figure(figsize=(8, 8))
 ax = fig.add_subplot(111, projection='3d')
-
-for S in S_tot_filtrat:  # Recorrem cada dia (subllista) en S_tot_filtrat
-    xf = [vector[0] for vector in S]  # Coordenades x del dia actual
-    yf = [vector[1] for vector in S]  # Coordenades y del dia actual
-    zf = [vector[2] for vector in S]  # Coordenades z del dia actual
-    ax.plot(xf, yf, zf, label=None, color='orange')  # Trajectòria per a aquest dia
 
 # Centre de la Terra (placa)
 ax.scatter(0, 0, 0, color="black", label="placa", s=40)
 
+# Traçar cada segment
+for segment in segments:
+    segment = np.array(segment)  # Convertir a array per facilitar el traçat
+    ax.plot(segment[:, 0], segment[:, 1], segment[:, 2], color='orange')
+
 # Configuració del gràfic
-ax.set_title("Posició del Sol respecte la placa")
+ax.set_title("Posició del Sol respecte la placa (z > 0)")
 ax.set_xlabel("Est (m)")
 ax.set_ylabel("Nord (m)")
 ax.set_zlabel("Radial (m)")
