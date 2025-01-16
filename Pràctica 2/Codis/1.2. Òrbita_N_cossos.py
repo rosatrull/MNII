@@ -2,6 +2,21 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
+#Paràmetres de format dels gràfics
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.serif": ["Computer modern"],  # You can change the serif font here if needed
+    "axes.labelsize": 14,     # Adjust as needed
+    "axes.linewidth": 0.5,    # Line width for axes
+    "xtick.labelsize": 12,    # Adjust tick label size
+    "ytick.labelsize": 12,    
+    "legend.fontsize": 10,    
+    "legend.handlelength": 1.0,
+    "lines.linewidth": 1,     # Width of plot lines
+    "lines.markersize": 3     # Scatter dot size
+})
+
 G = 6.67428e-11  # Constant de la gravitació
 
 # Constants d'adimensionalització
@@ -11,12 +26,13 @@ to = np.sqrt((xo**3) / (Mo * G))
 vo = xo / to
 
 #Valors inicials
-n = 4  # Nombre de cossos
-mi = [1.9885e30/Mo, 3.3011e23/Mo,4.8675e24/Mo, 5.972e24/Mo] #masses
-vx0i = [0, 0, 0, 0] 
-x0i = [0, 69.817e9/xo, 108.942e9/xo, 152.101e9/xo]
-y0i = [0, 0, 0, 0] 
-vy0i = [0, 43599.86/vo, 34903.90/vo, 29229.0/vo]
+n = 6  # Nombre de cossos
+mi = [1.9885e30/Mo, 3.3011e23/Mo,4.8675e24/Mo, 5.972e24/Mo, 6.4171e23 / Mo, 1.8982e27 / Mo]  
+vx0i = [0, 0, 0, 0,0,0]
+x0i = [0, 69.817e9 / xo,  108.942e9 / xo, 152.101e9 / xo, 249.229e9 / xo, 816.618e9 / xo]              
+y0i = [0, 0, 0, 0, 0, 0]
+vy0i = [0, 43599.86 / vo, 34903.90 / vo, 29229.0 / vo, 21970.0 / vo,12444.0 / vo] 
+   
 
 # Llei de la gravitació a l'eix X
 def fx(x, y, m, i):
@@ -43,7 +59,7 @@ def fy(x, y, m, i):
 # Llista de temps
 h = 3600/to
 t0 =0
-tf = (365 * 24 * 3600)/to
+tf = (11.86*365 * 24 * 3600)/to
 t = np.arange(t0, tf, h)
 
 # Llistes de posició i velocitat
@@ -110,16 +126,19 @@ for i in range(len(t)-1):
         vyj[i].append(vynou[i])
 
 # Gràfics de les trajectòries del planetes
-plt.figure(figsize=(10, 10))
-colors = ["yellow", "red","orange", "blue"]
-labels = ["Sol", "Mercuri","Venus", "Terra"]
+fig, ax = plt.subplots(figsize=(5, 5), dpi=300)
+ax.tick_params(axis='x', which='both', top=True, labeltop=False, direction='in')
+ax.tick_params(axis='y', which='both', right=True, labelright=False, direction='in')
+colors = ["yellow", "red","purple", "blue",'orange','brown']
+labels = ["Sol", "Mercuri","Venus", "Terra","Mart","Júpiter"]
 for i in range(n):
-    plt.plot(np.array(xj[i]) * xo, np.array(yj[i]) * xo, label=labels[i], color=colors[i])  
-    plt.scatter(xj[i][0] * xo, yj[i][0] * xo, color=colors[i]) 
+    if i==0:
+      plt.scatter(xj[i][0] * xo, yj[i][0] * xo, color=colors[i],label=labels[i])
+    else:
+      plt.plot(np.array(xj[i]) * xo, np.array(yj[i]) * xo, label=labels[i], color=colors[i])
 plt.xlabel("x (m)")
 plt.ylabel("y (m)")
-plt.title("Órbites de Mercuri, Venus i la Terra al voltant del Sol al llarg d'1 any terrestre (Mètode Runge-Kutta 4)")
-plt.legend()
-plt.grid()
+plt.grid(False)
+plt.legend(loc='upper right')
 plt.axis("equal")
 plt.show()
