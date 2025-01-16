@@ -37,7 +37,7 @@ def calcular_intensitat_diaria(dia):
         return np.mean(intensitats)
     return 0 
 
-n
+
 def simpson(x, y):
     n = len(x) - 1
     if n % 2 != 0:  
