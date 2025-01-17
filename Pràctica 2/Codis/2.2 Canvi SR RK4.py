@@ -12,8 +12,8 @@ M_S=1.9885e30
 T_dia_s=23.9344667*60*60                          
 T_any_s=365.25636*24*3600                         
 omega=2*np.pi/T_dia_s                             
-latitud_c=np.radians(45)                          #latitud de Caldes de Malavella [rad] 41.8356600
-longitud_c=np.radians(2.8127200)                  #longitud de Caldes de Malavella [rad]
+latitud_c=np.radians(41.9831100)                  #latitud de Girona [rad] 41.9831100
+longitud_c=np.radians(2.82493)                    #longitud de Girona [rad] 2.82493
 r_0=UA                                              
 t_0=(r_0**3/(M_S*G))**(1/2)
 N=int(T_any_s/T_dia_s*24)                         #fem un pas cada hora
@@ -25,7 +25,7 @@ M_r_a=np.array([
     [0, -np.sin(alpha), np.cos(alpha)]])
 
 #CANVI SISTEMA DE REFERÈNCIA
-pos_Caldes_terr=np.zeros((N,3))
+pos_Girona_terr=np.zeros((N,3))
 a=-1
 t=0
 for i in S_t:
@@ -43,17 +43,17 @@ for i in S_t:
 
     #Canvi de base
     a+=1
-    pos_Caldes_terr[a]=-np.dot(np.dot(M_r_a,M_r_rad),i)
+    pos_Girona_terr[a]=-np.dot(np.dot(M_r_a,M_r_rad),i)
     print(f"t: {t:.2f}, phi: {phi:.2f}")
 
-R = np.array(pos_Caldes_terr)
+R = np.array(pos_Girona_terr)
 filename = f"RK4(t) "
 np.savetxt(filename, R, delimiter=",", header="x,y,z", comments="")    
 
 #ORBITA SOL AL VOLTANT DE LA PLACA
-x=pos_Caldes_terr[:,0]
-y=pos_Caldes_terr[:,1]
-z=pos_Caldes_terr[:,2]
+x=pos_Girona_terr[:,0]
+y=pos_Girona_terr[:,1]
+z=pos_Girona_terr[:,2]
 
 fig = plt.figure(figsize=(8, 8))
 ax = fig.add_subplot(111, projection='3d')
@@ -68,9 +68,9 @@ ax.legend()
 plt.show()
 
 #FILTRACIÓ VALORS DE Z
-xd=pos_Caldes_terr[:,0]
-yd=pos_Caldes_terr[:,1]
-zd=pos_Caldes_terr[:,2]
+xd=pos_Girona_terr[:,0]
+yd=pos_Girona_terr[:,1]
+zd=pos_Girona_terr[:,2]
 # Filtrar punts on zd > 0
 mask = zd > 0  # Això crea una màscara booleana
 
@@ -90,8 +90,24 @@ if current_segment:
     segments.append(current_segment)
 
 # Graficar cada segment com una línia independent
-fig = plt.figure(figsize=(8, 8))
+fig = plt.figure(figsize=(5, 5), dpi = 300)
 ax = fig.add_subplot(111, projection='3d')
+
+ax.tick_params(axis='x', which='both', top=True, labeltop=False, direction='in')
+ax.tick_params(axis='y', which='both', right=True, labelright=False, direction='in')
+ax.tick_params(axis='z', which='both', direction='in')
+
+ax.grid(False)
+
+ax.xaxis.pane.set_visible(False)
+ax.yaxis.pane.set_visible(False)
+ax.zaxis.pane.set_visible(True)  
+ax.xaxis.pane.set_edgecolor('grey')
+ax.yaxis.pane.set_edgecolor('grey')
+
+ax.xaxis.pane.set_facecolor((0.9, 0.9, 0.9, 1.0))  
+ax.yaxis.pane.set_facecolor((0.9, 0.9, 0.9, 1.0))  
+ax.zaxis.pane.set_facecolor((0.9, 0.9, 0.9, 1.0))  
 
 # Centre de la Terra (placa)
 ax.scatter(0, 0, 0, color="black", label="placa", s=40)
@@ -102,7 +118,7 @@ for segment in segments:
     ax.plot(segment[:, 0], segment[:, 1], segment[:, 2], color='orange')
 
 # Configuració del gràfic
-ax.set_title("Posició del Sol respecte la placa (z > 0)")
+#ax.set_title("Posició del Sol respecte la placa (z > 0)")
 ax.set_xlabel("Est (m)")
 ax.set_ylabel("Nord (m)")
 ax.set_zlabel("Radial (m)")
