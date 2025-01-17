@@ -102,6 +102,10 @@ for j in range(1, N):
     pos_Girona[j][1]=y_ST[j]+p_C_terr[j][1]
     pos_Girona[j][2]=z_ST[j]+p_C_terr[j][2]          #recordem que z_ST és zero per tot t ja que haviem col·local el sol a (0,0,0)
 
+#GUARDEM EL VECTOR S(t) EN UN FITXER    
+S_t= np.array(pos_Girona)
+filename = f"S(t) RK4.txt"
+np.savetxt(filename, S_t, delimiter=",", header="x,y,z", comments="")
 
 #ORBITA Girona AL VOLTANT DEL CENTRE DE LA TERRA---------------------------------------------------------------
 xr=p_C_terr[:,0]
