@@ -1,0 +1,95 @@
+import numpy as np
+from scipy.optimize import minimize
+import matplotlib.pyplot as plt
+
+I0 = 1000  # Intensitat màxima en W/m^2
+
+
+# Funció per calcular la intensitat
+def intensitat(beta, psi, alpha_s, gamma_s):
+    # Convertim els angles a radians
+    beta, psi = np.radians(beta), np.radians(psi)
+    alpha_s, gamma_s = np.radians(alpha_s), np.radians(gamma_s)
+    
+    # Equació 2.5 del document
+    cos_theta = (
+        np.cos(alpha_s) * np.sin(gamma_s) * np.sin(beta) * np.sin(psi)
+        + np.cos(alpha_s) * np.cos(gamma_s) * np.sin(beta) * np.cos(psi)
+        + np.sin(alpha_s) * np.cos(beta)
+    )
+    return I0 * max(0, cos_theta)  # Ens assegurem que la intensitat sigui no negativa
+
+
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.serif": ["Computer Modern"],  
+    "axes.labelsize": 14,               
+    "axes.linewidth": 0.5,              
+    "xtick.labelsize": 12,             
+    "ytick.labelsize": 12,            
+    "legend.fontsize": 10,             
+    "legend.handlelength": 1.0,         
+    "lines.linewidth": 1,               
+    "lines.markersize": 3               
+})
+
+# Minimitzem la intensitat negativa per maximitzar la intensitat
+def objectiu(parametres, alpha_s, gamma_s):
+    beta, psi = parametres
+    return -intensitat(beta, psi, alpha_s, gamma_s)
+
+# Rangs de posició solar
+altituds = np.linspace(0, 90, 100)  # Altituds solars (graus)
+azimuts = np.linspace(0, 360, 100)  # Azimut solars (graus)
+
+# Matrius per emmagatzemar els resultats
+betes_optimals = np.zeros((len(altituds), len(azimuts)))
+psis_optimals = np.zeros((len(altituds), len(azimuts)))
+intensitats_maximes = np.zeros((len(altituds), len(azimuts)))
+
+# Bucle d'optimització
+for i, alpha_s in enumerate(altituds):
+    for j, gamma_s in enumerate(azimuts):
+        # Suposicions inicials per a beta i psi
+        conjectura_inicial = [45, 180]  
+        limits = [(0, 90), (0, 360)]  
+        
+        # Minimitzar
+        res = minimize(objectiu, conjectura_inicial, args=(alpha_s, gamma_s), bounds=limits)
+        
+        # Emmagatzemar resultats
+        betes_optimals[i, j] = res.x[0]
+        psis_optimals[i, j] = res.x[1]
+        intensitats_maximes[i, j] = -res.fun  # Intensitat màxima
+
+fig, ax = plt.subplots(1, 2, figsize=(16, 6))
+
+
+im1 = ax[0].imshow(betes_optimals, extent=[0, 360, 0, 90], origin="lower", aspect="auto", cmap="viridis")
+ax[0].set_title(r"Inclinació Òptima ($\beta$) (graus)", size=16)
+ax[0].set_xlabel(r"Azimut ($\gamma_s$) (graus)")
+ax[0].set_ylabel(r"Altitud ($\alpha_s$) (graus)")
+fig.colorbar(im1, ax=ax[0], label=r"$\beta$ (graus)")
+
+im2 = ax[1].imshow(psis_optimals, extent=[0, 360, 0, 90], origin="lower", aspect="auto", cmap="plasma")
+ax[1].set_title(r"Orientació Òptima ($\psi$) (graus)",size=16)
+ax[1].set_xlabel(r"Azimut ($\gamma_s$) (graus)")
+ax[1].set_ylabel(r"Altitud ($\alpha_s$) (graus)")
+fig.colorbar(im2, ax=ax[1], label=r"$\psi$ (graus)")
+
+plt.savefig('inclinacio.png', bbox_inches='tight', dpi=300)
+
+plt.show()
+
+beta_mitjana = np.mean(betes_optimals)
+
+print(f"Inclinació Òptima Mitjana (β): {beta_mitjana:.2f}°")
+
+psi_mitjana = np.mean(psis_optimals)
+
+print(f"Orientació Òptima Mitjana (ψ): {psi_mitjana:.2f}°")
+
+
+
+
